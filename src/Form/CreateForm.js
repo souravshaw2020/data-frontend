@@ -77,12 +77,13 @@ class CreateForm extends Component {
 
     handleSubmit = (Event) => {
         Event.preventDefault();
-        // const {firstname, lastname, email, phonenumber, accounttype, accountnumber, storagetype}=this.state;
+        const storagetype=this.state.storagetype;
         if(this.handleFormValidation()){
             alert('You have been successfully submitted.')
             const sendMessage = async (Event) => {
                 await axios.post('/register',this.state).then(
                     (res) => {
+                        console.log("DATABASE : ");
                         console.log(res);
                     }
                 ).catch((err) => console.log(err))
@@ -96,7 +97,16 @@ class CreateForm extends Component {
                 //     storagetype: storagetype
                 // })
             }
-            sendMessage();
+            if(storagetype==='database'){
+                sendMessage();
+            }
+            else{
+                localStorage.setItem('Data', JSON.stringify(this.state));
+
+                console.log("Local Storage");
+                console.log(localStorage.getItem('Data'));
+            }
+            
             this.setState(this.initialState)
         }
     }
